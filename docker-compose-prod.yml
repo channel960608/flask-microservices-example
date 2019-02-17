@@ -16,6 +16,8 @@ services:
     build: ./
     ports:
       - '5000' # 暴露端口 - 主机:容器
+    expose:
+      - '5000'
     environment:
       - APP_SETTINGS=project.config.ProductionConfig
       - DATABASE_URL=mysql+pymysql://root:root321@users-db:3306/users_prod
