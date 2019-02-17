@@ -28,6 +28,7 @@ def test():
 @manager.command
 def seed_db():
     """Seeds the database."""
+    user = User(username='cnych', email="qikqiak@gmail.com") 
     db.session.add(User(username='cnych', email="qikqiak@gmail.com"))
     db.session.add(User(username='chyang', email="icnych@gmail.com"))
     db.session.commit()
