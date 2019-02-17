@@ -4,7 +4,7 @@ from project import db
 from project.api.models import User
 from sqlalchemy import exc
 
-users_blueprint = Blueprint('users', __name__)
+users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 @users_blueprint.route('/ping', methods=['GET'])
 def ping_pong():
@@ -99,3 +99,25 @@ def get_users():
         }
     }
     return jsonify(response_object), 200
+
+@users_blueprint.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        db.session.add(User(username=username, email=email))
+        db.session.commit()
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template('index.html', users=users)
+
+@users_blueprint.route('/hello', methods=['GET', 'POST'])
+def hello():
+    response_object = {
+       'status': 'success',
+       'data': {
+           'users': 'qing'
+       }
+    }
+    
+    return jsonify(response_object), 200
+
